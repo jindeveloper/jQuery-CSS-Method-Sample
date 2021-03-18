@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"
+        integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
+    <title>jQuery CSS Methods</title>
+
+    <style>
+        .container {
+            margin: auto;
+            width: 30%;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .width-50 {
+            width: 50%;
+        }
+
+        .box1 {
+            background-color: #f5cd7e;
+            border: 10px solid #e8e8e8;
+            height: 200px;
+        }
+
+        .borderWithCorner {
+            border-radius: 50px;
+        }
+
+        .happyDog {
+            background-image: url('img/dog_in_yellow_1.png');
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .menus {
+            padding-top: 10px;
+        }
+
+        .menus button {
+            border-radius: 5px;
+            width: 100%;
+            margin: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h2 class="text-center">jQuery css() Method</h2>
+        <h3 class="text-center">addClass(), removeClass(), hasClass() & toggleClass()</h3>
+        <p>This method actually sets and gets the style property of an element</p>
+        <div class="box1"></div>
+        <div class="menus">
+            <button id="btn1">Change background-color</button>
+            <button id="btn2">bckgrnd-color, txt-color & bold</button>
+            <button id="btn3">Toggle rounded-corners</button>
+            <button id="btn4">Toggle 2 rounded-corners</button>
+            <button class="width-50" id="btn5">+</button>
+            <button class="width-50" id="btn6">-</button>
+        </div>
+    </div>
+
+    <script>
+        const
+            container = $(".container"),
+            box1 = $(".box1"),
+            button1 = $("#btn1"),
+            button2 = $("#btn2"),
+            button3 = $("#btn3"),
+            button4 = $("#btn4"),
+            button_size = $(".width-50");
+
+        let previousSubtractedSize = 0;
+
+        button1.on('click', function (evt) {
+
+            //set
+            $(this).css('background-color',
+                '#7ef5af');
+
+            //get
+            let color = $(this).css('color').toString();
+
+            console.log(color);
+            console.log(color === 'rgb(0, 0, 0)');
+            console.log('color is black');
+
+        });
+
+        button2.on('click', function (evt) {
+
+            // $(this)
+            //     .css('background-color', '#7ef5af')
+            //     .css('color', '#f57e89')
+            //     .css('font-weight', 'bold');
+            /*
+             * we can optimize this by using 
+             * .css({}) by passing an object literal
+             */
+
+            $(this)
+                .css({
+                    'background-color': '#7ef5af',
+                    'color': '#f57e89',
+                    'font-weight': 'bold'
+                });
+        });
+
+        button3.on('click', function (evt) {
+
+            /*
+             * Check whether if the element 
+             * has the class 'borderWithCorner'
+             * if doesn't have add it otherwise remove it.
+             */
+            if (!$(box1).hasClass('borderWithCorner')) {
+                $(box1).addClass('borderWithCorner');
+            }
+            else {
+                $(box1).removeClass('borderWithCorner');
+            }
+        });
+
+        button4.on('click', function (evt) {
+
+            //$(box1).toggleClass('borderWithCorner');
+
+            //don't forget the happy dog!!!!
+            $(box1).toggleClass('borderWithCorner happyDog');
+        });
+
+        button_size.on('click', function (evt) {
+            let symbol = $(this).text();
+
+            if (symbol === '+') {
+                $(box1).css({
+                    width: function (index, value) {
+                        previousSubtractedSize = parseFloat(value) * 0.5;
+                        return parseFloat(value) + (previousSubtractedSize);
+                    }
+                });
+            }
+            else {
+                $(box1).css({
+                    width: function (index, value) {
+                        return parseFloat(value) - (previousSubtractedSize);
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>
